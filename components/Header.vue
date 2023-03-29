@@ -6,27 +6,25 @@
         <a href="https://flowbite.com/" class="flex items-center">
           <Logo />
         </a>
-        <div class="flex items-center md:order-2">
-          <div v-if="user" >
-            <Button
-              @click="logout"
-              buttonLabel="Déconnexion"
-              type="button"
-            />
-          </div>
-          <div v-else class="flex items-center md:order-2">
+        <div v-if="user" class="flex items-center md:order-2">
+          <Button
+            @click="logout"
+            buttonLabel="Déconnexion"
+            type="button"
+          />
+        </div>
+        <div v-else class="flex items-center md:order-2">
+          <Button
+            type="link"
+            url="login"
+            buttonLabel="Connexion"
+          />
+          <div class="ml-3">
             <Button
               type="link"
-              url="login"
-              buttonLabel="Connexion"
+              url="/register"
+              buttonLabel="Inscription"
             />
-            <div class="ml-3">
-              <Button
-                type="link"
-                url="/register"
-                buttonLabel="Inscription"
-              />
-            </div>
           </div>
         </div>
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">

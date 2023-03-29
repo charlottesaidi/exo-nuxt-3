@@ -4,7 +4,7 @@
     <div v-if="message">
       <p class="mb-4 p-3 border border-green-800 bg-green-100 text-green-800 rounded">{{message}}</p>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <TransitionGroup name="list" tag="div" class="grid grid-cols-2 md:grid-cols-3 gap-4">
       <div
         v-for="post in posts"
         :key="post.id"
@@ -12,7 +12,7 @@
       >
         <ListItem :post="post" @delete="deleteItem(post.id)" :user="user"/>
       </div>
-    </div>
+    </TransitionGroup>
   </div>
 </template>
 
@@ -49,5 +49,13 @@ export default {
 </script>
 
 <style scoped>
-
+  .list-enter-active,
+  .list-leave-active {
+    transition: opacity 0.5s ease;
+  }
+  .list-enter-from,
+  .list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
 </style>
