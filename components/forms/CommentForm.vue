@@ -23,12 +23,13 @@
 export default {
   name: "CommentForm",
   props: {
-    article_id: 0
+    article_id: 0,
+    author_id: 0
   },
   data() {
     return {
       comment: {
-        author_id: 20,
+        author_id: 0,
         article_id: 0,
         body: '',
         date: '2023-03-22 11:27:49'
@@ -39,7 +40,8 @@ export default {
   methods: {
     async submit() {
       this.comment.article_id = this.article_id
-      let res = await this.$services.comments.post(this.comment)
+      this.comment.author_id = this.author_id
+      let res = await this.$services.comments.post(this.article_id, this.comment)
       if(res.success) {
         this.message = 'Commentaire posté avec succès';
       }

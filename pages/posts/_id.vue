@@ -13,53 +13,54 @@
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ post.body }}</p>
         </div>
       </div>
-      <div class="mt-3">
-        <CommentForm :article_id="post.id" />
-      </div>
-      <div class="mt-3">
+      <div class="mt-4 p-3 shadow">
         <h3>MiaouCommentaires</h3>
         <div class="p-3" v-for="comment in comments">
           <div class="flex justify-between">
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{comment.email}} a écrit : </p>
-            <p>{{comment.date}}</p>
+            <p>{{comment.commentDate}}</p>
           </div>
-          <p>{{comment.body}}</p>
+          <p>{{comment.commentBody}}</p>
         </div>
       </div>
-      <h2 class="my-4 py-4 text-2xl text-center font-extrabold leading-none tracking-tight text-gray-900 dark:text-white"> Modifier ce MiaouArticle</h2>
-      <form name="post_form" id="post_form" @submit.prevent="update">
-        <div v-if="message">
-          <p class="mb-4 p-3 border border-green-800 bg-green-100 text-green-800 rounded">{{message}}</p>
-        </div>
-        <div class="mb-6">
-          <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>
-          <input
-            type="text"
-            id="nom"
-            v-model="post.title"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      <div v-if="user" class="mt-3">
+        <CommentForm :article_id="post.id" :author_id="user.id" />
+      </div>
+      <div v-if="user && user.roles === 'admin'">
+        <h2 class="my-4 py-4 text-2xl text-center font-extrabold leading-none tracking-tight text-gray-900 dark:text-white"> Modifier ce MiaouArticle</h2>
+        <form name="post_form" id="post_form" @submit.prevent="update">
+          <div v-if="message">
+            <p class="mb-4 p-3 border border-green-800 bg-green-100 text-green-800 rounded">{{message}}</p>
+          </div>
+          <div class="mb-6">
+            <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>
+            <input
+              type="text"
+              id="nom"
+              v-model="post.title"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+          <div class="mb-6">
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+            <textarea
+              type="textarea"
+              id="description"
+              v-model="post.body"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            ></textarea>
+          </div>
+          <Button
+            buttonLabel="Modifier"
+            type="submit"
           />
-        </div>
-        <div class="mb-6">
-          <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-          <textarea
-            type="textarea"
-            id="description"
-            v-model="post.body"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          ></textarea>
-        </div>
-        <Button
-          buttonLabel="Modifier"
-          type="submit"
-        />
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import PostForm from "~/components/forms/PostForm.vue";
 import CommentForm from "~/components/forms/CommentForm.vue";
 
 export default {
@@ -69,7 +70,13 @@ export default {
     return {
       post: Object,
       comments: Array,
-      message: ''
+      message: '',
+      user: null
+    }
+  },
+  created() {
+    if(this.$services.auth.isLogged()) {
+      this.user = this.$services.auth.getUser()
     }
   },
   async asyncData({app, route}) {

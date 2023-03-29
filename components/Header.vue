@@ -7,17 +7,26 @@
           <Logo />
         </a>
         <div class="flex items-center md:order-2">
-          <Button
-            type="link"
-            url="login"
-            buttonLabel="Connexion"
-          />
-          <div class="ml-3">
+          <div v-if="user" >
+            <Button
+              @click="logout"
+              buttonLabel="Déconnexion"
+              type="button"
+            />
+          </div>
+          <div v-else class="flex items-center md:order-2">
             <Button
               type="link"
-              url="/register"
-              buttonLabel="Inscription"
+              url="login"
+              buttonLabel="Connexion"
             />
+            <div class="ml-3">
+              <Button
+                type="link"
+                url="/register"
+                buttonLabel="Inscription"
+              />
+            </div>
           </div>
         </div>
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
@@ -28,7 +37,7 @@
             <li>
               <NuxtLink to="/posts" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Posts</NuxtLink>
             </li>
-            <li>
+            <li v-if="user && user.roles === 'admin'">
               <NuxtLink to="/posts/add" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Publier</NuxtLink>
             </li>
           </ul>
@@ -41,7 +50,16 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  props: {
+    user: null
+  },
+  methods: {
+    logout() {
+      this.$services.auth.logout()
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 

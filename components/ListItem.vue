@@ -5,7 +5,7 @@
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ post.title }}</h5>
       </NuxtLink>
       <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ post.body }}</p>
-      <div v-if="!disableDelete">
+      <div v-if="user && user.roles === 'admin'">
         <button
           v-if="!disableDelete"
           type="button"
@@ -22,22 +22,8 @@ export default {
   name: "ListItem",
   props: {
     post: Object,
-    disableDelete: Boolean
-  },
-  data() {
-    return {
-      isAdmin: Boolean,
-      token: null
-    }
-  },
-  asyncData({app}) {
-    if(process.client) {
-      app.token = sessionStorage.getItem('token');
-    }
-    if(app.token && app.token === 'admin') {
-      console.log('ah bon c true ?')
-      this.isAdmin = true;
-    }
+    disableDelete: Boolean,
+    user: Object | null
   },
   methods: {
     deletion() {

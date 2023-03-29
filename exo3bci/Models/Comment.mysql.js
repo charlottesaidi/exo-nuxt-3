@@ -18,7 +18,7 @@ Comment.create = (newComment, result) => {
 }
 
 Comment.getAll = (article, result) => {
-  sql.query(`SELECT *, u.email FROM comment AS c
+  sql.query(`SELECT *, u.email, c.body as commentBody, c.date as commentDate FROM comment AS c
     JOIN article AS a ON c.article_id=a.id
     JOIN user AS u ON c.author_id=u.id
     WHERE a.id=${article}`,

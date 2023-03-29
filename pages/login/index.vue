@@ -43,13 +43,21 @@ export default {
       error: null
     }
   },
+  created() {
+    if(this.$services.auth.isLogged()) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     async login() {
       let res = await this.$services.users.login(this.user)
       if(res.error) {
         this.error = res.data
       } else {
-        this.$axios.redirect('/')
+        if(process.client) {
+          localStorage.setItem("token", JSON.stringify(res.data[0]))
+        }
+        window.location.href = '/'
       }
     }
   }

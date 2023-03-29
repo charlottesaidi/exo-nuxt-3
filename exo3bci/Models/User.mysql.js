@@ -6,13 +6,13 @@ const User = function(User) {
   this.password = User.password;
 }
 
-User.login  = (email, result) => {
-  sql.query(`SELECT * FROM user WHERE email=${email}`, (err,res) => {
+User.login = (user, result) => {
+  sql.query(`SELECT * FROM user WHERE email="${user.email}" AND password="${user.password}"`, (err,res) => {
     if(err){
       result(err,null);
       return;
     }
-    result({data:data})
+    result(null, res)
   })
 }
 

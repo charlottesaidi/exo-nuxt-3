@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header/>
+    <Header :user="user"/>
       <Nuxt />
     <Footer/>
   </div>
@@ -8,7 +8,17 @@
 
 <script>
 export default {
-  name: "default"
+  name: "default",
+  data() {
+    return {
+      user: null
+    }
+  },
+  created() {
+    if(this.$services.auth.isLogged()) {
+      this.user = this.$services.auth.getUser()
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 const User = require('../Models/User.mysql');
 
 exports.login = async function(req,res) {
-  await User.login(req.body.email, async (err,data) => {
+  await User.login({email: req.body.email, password: req.body.password}, async (err,data) => {
     if(data == null) {
        return res.json({error: true, data:'identifiant invalide'});
     }
