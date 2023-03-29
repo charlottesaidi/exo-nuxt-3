@@ -18,6 +18,6 @@ $ cd exo3bci
 # install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at localhost:4000
 $ yarn start
 ```
