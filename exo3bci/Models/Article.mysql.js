@@ -38,8 +38,8 @@ Article.getOne  = (id, result) => {
 }
 
 Article.updateById = (id,article, result ) => {
-    sql.query(`UPDATE article SET title = ? ,  author_id = ? ,  body = ? ,  date = ?  WHERE id = ${id} `,
-        [article.title,article.author_id,article.body,article.date], (err,res) => {
+    sql.query(`UPDATE article SET title = ?,  body = ?  WHERE id = ${id} `,
+        [article.title,article.body], (err,res) => {
             if(err){
                 result(err,null);
                 return;

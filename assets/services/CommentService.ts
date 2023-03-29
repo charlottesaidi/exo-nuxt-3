@@ -25,7 +25,7 @@ export default class CommentService {
   async post(postId: number | string, comment: any) {
     let data = {}
     await this.axios.post('http://localhost:4000/articles/'+postId+'/createComment', comment).then((response: any) => {
-      data = response.data.data
+      data = response.data
     });
     return data;
   }

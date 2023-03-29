@@ -67,12 +67,25 @@ let comments = [
 //   }
 // }
 
-const dataFixtures = {
-  user: users,
-  article: articles,
-  comment: comments
-}
+// const dataFixtures = {
+//   user: users,
+//   article: articles,
+//   comment: comments
+// }
 
-SQLFixtures.create(config, dataFixtures, function() {
+SQLFixtures.create(config, {
+  user: [
+    {
+      email: 'admin@example.fr',
+      roles: 'admin',
+      password: 'adminPass'
+    },
+    {
+      email: 'user@example.fr',
+      roles: 'user',
+      password: 'userPass'
+    }
+  ]
+}, function() {
     console.log('finish.');
 });

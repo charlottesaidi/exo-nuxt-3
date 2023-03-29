@@ -3,18 +3,18 @@
     <h1
       class="mb-4 py-4 text-3xl text-center font-extrabold leading-none tracking-tight text-gray-900 dark:text-white"
     >
-      Poster un MiaouArticle
+      Inscription
     </h1>
-      <PostForm />
+    <UserForm />
   </div>
 </template>
 
 <script>
-import PostForm from "~/components/forms/PostForm.vue";
+import UserForm from "~/components/forms/UserForm.vue";
 
 export default {
-  name: "Add",
-  components: {PostForm},
+  name: "register.index",
+  components: {UserForm},
 }
 </script>
 

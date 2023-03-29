@@ -48,6 +48,8 @@ export default {
       let res = await this.$services.users.login(this.user)
       if(res.error) {
         this.error = res.data
+      } else {
+        this.$axios.redirect('/')
       }
     }
   }

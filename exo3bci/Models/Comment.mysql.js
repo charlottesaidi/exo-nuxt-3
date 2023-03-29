@@ -1,7 +1,8 @@
 const sql = require('../config/mysql');
 
 const Comment = function(Comment) {
-  this.author = Comment.author;
+  this.author_id = Comment.author_id;
+  this.article_id = Comment.article_id;
   this.body = Comment.body;
   this.date = Comment.date;
 }
@@ -41,8 +42,8 @@ Comment.getOne  = (id, result) => {
 }
 
 Comment.updateById = (id,comment, result ) => {
-  sql.query(`UPDATE comment SET author = ? ,  body = ? ,  date = ?  WHERE id = ${id} `,
-    [comment.author,comment.body,comment.date], (err,res) => {
+  sql.query(`UPDATE comment SET body = ?  WHERE id = ${id} `,
+    [comment.body], (err,res) => {
       if(err){
         result(err,null);
         return;

@@ -26,14 +26,18 @@ export default {
   },
   data() {
     return {
-      isAdmin: Boolean
+      isAdmin: Boolean,
+      token: null
     }
   },
-  created() {
-    // const token = sessionStorage.getItem('token');
-    // if(token && token === 'admin') {
-    //   this.isAdmin = true;
-    // }
+  asyncData({app}) {
+    if(process.client) {
+      app.token = sessionStorage.getItem('token');
+    }
+    if(app.token && app.token === 'admin') {
+      console.log('ah bon c true ?')
+      this.isAdmin = true;
+    }
   },
   methods: {
     deletion() {

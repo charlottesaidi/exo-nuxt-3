@@ -1,6 +1,9 @@
 <template>
   <div class="container md:container md:mx-auto">
     <h1 class="mb-4 py-4 text-3xl text-center font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">MiaouBlog</h1>
+    <div v-if="message">
+      <p class="mb-4 p-3 border border-green-800 bg-green-100 text-green-800 rounded">{{message}}</p>
+    </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       <div
         v-for="post in posts"
@@ -18,7 +21,8 @@ export default {
   name: "IndexPage",
   data() {
     return {
-      posts: Array
+      posts: Array,
+      message: ''
     }
   },
   async asyncData({ app }) {
@@ -28,7 +32,11 @@ export default {
   methods: {
     async deleteItem(id) {
       let res = await this.$services.posts.delete(id)
-      console.log(res.data)
+      if(res.success) {
+        let posts = await this.$services.posts.findAll()
+        this.posts = posts.data;
+        this.message = 'Article supprimé avec succès';
+      }
     }
   }
 }
